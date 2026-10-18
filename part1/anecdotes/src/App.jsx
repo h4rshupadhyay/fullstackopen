@@ -30,12 +30,23 @@ const App = () => {
     const updatedVotes = votes[selected] +1
     setVotes({...votes, [selected] : updatedVotes})
   }
+  const [key,value] = Object.entries(votes).reduce((maxVotes,[key,votes]) => {
+    if(maxVotes === null || votes > maxVotes[1]){
+      return [key,votes];
+    }
+    return maxVotes; 
+  },null);
+  console.log([key,value])
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <p>{anecdotes[selected]}</p>
       <p>has {votes[selected]} votes</p>
       <button onClick={handleVotes}>vote anecdote</button>
       <button onClick={handleNext}>next anecdote</button>
+      <h1>Anecdote with most votes</h1>
+      <p>{anecdotes[key]}</p>
+      <p>has {value} votes</p>
     </div>
   )
 }
