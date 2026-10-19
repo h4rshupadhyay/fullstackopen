@@ -6,13 +6,9 @@ const Content = ({course}) => (
   </>
 )
 
-const Part = ({part}) => (
-  <p>
-    {part.name} {part.exercises}
-  </p>
-)
+const Part = ({part}) => (<p>{part.name} {part.exercises}</p>)
 
-const Total = ({course}) => <p>Number of exercises {course.parts.reduce((sum,x) => (sum + x.exercises),0)}</p>
+const Total = ({course}) => <p>Number of exercises {course.parts.reduce((sum,x)  => (sum + x.exercises),0)}</p>
 
 const Course = ({course}) => {
   return <>
