@@ -1,5 +1,30 @@
 import { useState } from 'react'
 
+const Filter = ({value,onChange}) =>{
+  return (
+    <div>
+      filter shown with: <input value={value} onChange={onChange} />
+    </div>
+  )
+}  
+
+const PersonForm = ({addPerson,newName,handleName,handleNumber,newNumber}) => {
+  return (
+    <form onSubmit={addPerson}>
+        <div>name: <input value={newName} onChange={handleName}/></div>
+        <div>number: <input value={newNumber} onChange={handleNumber}/></div>
+        <div><button type="submit">add</button></div>
+    </form>
+  )
+}
+
+const Persons = ({persons,searchValue}) => {
+  return (
+    <div>
+      {persons.filter((x) => x.name.toLowerCase().includes(searchValue.toLowerCase())).map((x) => <p key={x.id}>{x.name}:{x.number}</p>)}
+    </div>
+  )
+}
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456', id: 1 },
@@ -49,23 +74,15 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-          filter shown with: <input value={searchValue} onChange={handleSearch}/>
-      </div>
-      <form onSubmit={addPerson}>
-        <div>name: <input value={newName} onChange={handleName}/></div>
-        <div>number: <input value={newNumber} onChange={handleNumber}/></div>
-        <div><button type="submit">add</button></div>
-      </form>
-      <h2>Numbers</h2>
-      <ul>
-        {persons.filter((x) => {
-          if(searchValue === '') return true
-          else {
-            return x.name.toLowerCase().includes(searchValue.toLocaleLowerCase())
-          }
-        }).map((x) => <p key={x.name} >{x.name}:{x.number}</p>)}
-      </ul>
+      <Filter value={searchValue} onChange={handleSearch}/> 
+      <h3>Add a new</h3>
+      <PersonForm 
+        addPerson={addPerson}
+        newName = {newName} handleName={handleName}
+        newNumber = {newNumber} handleNumber={handleNumber}
+      />
+      <h3>Numbers</h3>
+      <Persons persons={persons} searchValue={searchValue}/>
     </div>
   )
 }
