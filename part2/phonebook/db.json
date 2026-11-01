@@ -29,6 +29,31 @@
       "name": "Harsh",
       "number": "1234",
       "id": "2eZO56coZpM"
+    },
+    {
+      "name": "harshu",
+      "number": "12345",
+      "id": "p3x0DkQvljg"
+    },
+    {
+      "name": "123h",
+      "number": "1231",
+      "id": "Mc2gtV9UjGU"
+    },
+    {
+      "name": "Hiii",
+      "number": "123144",
+      "id": "M1CRFiPrOU8"
+    },
+    {
+      "name": "sadfa",
+      "number": "sfdfa",
+      "id": "qZf8JTs5Wko"
+    },
+    {
+      "name": "fas",
+      "number": "fsadfas",
+      "id": "eg8f-bm6h-c"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

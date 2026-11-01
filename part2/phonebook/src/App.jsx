@@ -1,5 +1,6 @@
 import { useState,useEffect } from 'react'
 import axios from 'axios'
+import phonebookServices from './services/phonebook'
 
 const Filter = ({value,onChange}) =>{
   return (
@@ -60,26 +61,25 @@ const App = () => {
       alert(`${newNumber} is already added to phonebook`)
     }
     else{
-      axios
-      .post("http://localhost:3001/persons",newNameObj)
-      .then(response => {
-      console.log('Object added to server');
-      setPersons(persons.concat(newNameObj));
-      setNewName('')
-      setNewNumber('')
+      phonebookServices
+      .create(newNameObj)
+      .then((returnedData) =>  {
+        console.log("Object added to server");
+        setPersons(persons.concat(returnedData));
+        setNewName('');
+        setNewNumber('');
       })
-
     }
   };
 
   useEffect(()=>{
     console.log("effect");
-    axios
-    .get("http://localhost:3001/persons")
-    .then(response => {
-      console.log('promise fulfilled');
-      setPersons(response.data);
-    })
+    phonebookServices.
+    getAll()
+    .then((initialData) => {
+      console.log("Initial data fetched from the server");
+      setPersons(initialData);
+    });
   },[])
 
   return (
