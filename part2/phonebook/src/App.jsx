@@ -1,32 +1,10 @@
 import { useState,useEffect } from 'react'
-import axios from 'axios'
 import phonebookServices from './services/phonebook'
+import Persons from './components/Persons'
+import PersonForm from './components/PersonForm'
+import Filter from './components/Filter'
 
-const Filter = ({value,onChange}) =>{
-  return (
-    <div>
-      filter shown with: <input value={value} onChange={onChange} />
-    </div>
-  )
-}  
 
-const PersonForm = ({addPerson,newName,handleName,handleNumber,newNumber}) => {
-  return (
-    <form onSubmit={addPerson}>
-        <div>name: <input value={newName} onChange={handleName}/></div>
-        <div>number: <input value={newNumber} onChange={handleNumber}/></div>
-        <div><button type="submit">add</button></div>
-    </form>
-  )
-}
-
-const Persons = ({persons,searchValue}) => {
-  return (
-    <div>
-      {persons.filter((x) => x.name.toLowerCase().includes(searchValue.toLowerCase())).map((x) => <p key={x.id}>{x.name}:{x.number}</p>)}
-    </div>
-  )
-}
 const App = () => {
   const [persons, setPersons] = useState([])
 
@@ -65,6 +43,7 @@ const App = () => {
       .create(newNameObj)
       .then((returnedData) =>  {
         console.log("Object added to server");
+        console.log(returnedData);
         setPersons(persons.concat(returnedData));
         setNewName('');
         setNewNumber('');
@@ -72,12 +51,25 @@ const App = () => {
     }
   };
 
+  const deletePerson = (id) => {
+    let confirmation = window.confirm(`Delete ${persons.find(person => person.id == id).name}?`);
+    if(confirmation){
+      phonebookServices
+      .deletePerson(id)
+      .then(() => {
+        console.log("succesful deletion");
+        setPersons(persons.filter((person) => person.id != id))
+      })
+    }
+  }
+
   useEffect(()=>{
     console.log("effect");
     phonebookServices.
     getAll()
     .then((initialData) => {
       console.log("Initial data fetched from the server");
+      console.log(initialData);
       setPersons(initialData);
     });
   },[])
@@ -93,7 +85,7 @@ const App = () => {
         newNumber = {newNumber} handleNumber={handleNumber}
       />
       <h3>Numbers</h3>
-      <Persons persons={persons} searchValue={searchValue}/>
+      <Persons persons={persons} searchValue={searchValue} onclick={deletePerson}/>
     </div>
   )
 }
