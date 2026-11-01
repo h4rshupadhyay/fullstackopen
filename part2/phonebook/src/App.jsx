@@ -60,9 +60,15 @@ const App = () => {
       alert(`${newNumber} is already added to phonebook`)
     }
     else{
+      axios
+      .post("http://localhost:3001/persons",newNameObj)
+      .then(response => {
+      console.log('Object added to server');
       setPersons(persons.concat(newNameObj));
       setNewName('')
       setNewNumber('')
+      })
+
     }
   };
 
