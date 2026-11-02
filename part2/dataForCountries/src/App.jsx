@@ -18,7 +18,7 @@ const App = () => {
     <div>
       <div>
         <p>find countries <input value={searchQuery} onChange={onChange}></input></p>
-        <Body searchQuery={searchQuery} dataSet={dataSet}/>
+        <Body searchQuery={searchQuery} dataSet={dataSet} setSearchQuery={setSearchQuery}/>
 
       </div>
     </div>
