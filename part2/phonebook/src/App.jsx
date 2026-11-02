@@ -27,13 +27,20 @@ const App = () => {
     let newNameObj = {
       name : newName,
       number: newNumber,
-      id: persons.length+1
     };
     let isDuplicateName = persons.some(person => person.name === newName);
     let isDuplicateNumber = persons.some(person => person.number === newNumber);
     
     if(isDuplicateName){
-      alert(`${newName} is already added to phonebook`)
+      let confirmation = window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)
+      if(confirmation){
+        phonebookServices
+        .update(persons.find((person) => person.name == newName).id,newNameObj)
+        .then((returnedObject) => {
+          setPersons(persons.filter((person)=> person.name != newName).concat(returnedObject));
+        }
+        )
+      }
     }
     else if(isDuplicateNumber){
       alert(`${newNumber} is already added to phonebook`)
